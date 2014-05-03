@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using PGPy &mdash; PGPy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PGPy 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="PGPy API" href="api.html" />
+    <link rel="prev" title="PGPy Documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="PGPy API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="PGPy Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PGPy 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="using-pgpy">
+<h1>Using PGPy<a class="headerlink" href="#using-pgpy" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>PGPy can be obtained from PyPI using pip:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install PGPy
+</pre></div>
+</div>
+<p>Using PGPy is quite simple. For all examples given below, use the following import statement:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pgpy</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-keys">
+<h2>Loading Keys<a class="headerlink" href="#loading-keys" title="Permalink to this headline">¶</a></h2>
+<p>The first thing you will always want to do is load one or more keys. PGPy understands a wide variety of formats.</p>
+<p>You can load ASCII armored keys or GPG keyrings directly using a path, URL, file-like object, string, byte string,
+or a list of any of those formats:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">asciikey</span> <span class="o">=</span> <span class="n">pgpy</span><span class="o">.</span><span class="n">PGPKeyring</span><span class="p">(</span><span class="s">&quot;path/to/key.asc&quot;</span><span class="p">)</span>
+<span class="n">keyring</span> <span class="o">=</span> <span class="n">pgpy</span><span class="o">.</span><span class="n">PGPKeyring</span><span class="p">(</span><span class="s">&quot;path/to/keyring.gpg&quot;</span><span class="p">)</span>
+<span class="n">pubsec</span> <span class="o">=</span> <span class="n">pgpy</span><span class="o">.</span><span class="n">PGPKeyring</span><span class="p">([</span><span class="s">&quot;/home/user/.gnupg/pubring.gpg&quot;</span><span class="p">,</span> <span class="s">&quot;/home/user/.gnupg/secring.gpg&quot;</span><span class="p">])</span>
+<span class="n">ubuntupubkey</span> <span class="o">=</span> <span class="n">pgpy</span><span class="o">.</span><span class="n">PGPKeyring</span><span class="p">(</span><span class="s">&quot;http://us.archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and additional keys can be loaded as you go:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pubsec</span> <span class="o">=</span> <span class="n">pgpy</span><span class="o">.</span><span class="n">PGPKeyring</span><span class="p">([</span><span class="s">&quot;/home/user/.gnupg/pubring.gpg&quot;</span><span class="p">,</span> <span class="s">&quot;/home/user/.gnupg/secring.gpg&quot;</span><span class="p">])</span>
+<span class="n">pubsec</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;path/to/another/key&quot;</span><span class="p">)</span>
+<span class="n">pubsec</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="s">&quot;another/pubring.gpg&quot;</span><span class="p">,</span> <span class="s">&quot;anther/secring.gpg&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>PGPKeyring also accepts URLs, file-like objects, strings, and byte strings.</p>
+</div>
+<div class="section" id="using-keys">
+<h2>Using Keys<a class="headerlink" href="#using-keys" title="Permalink to this headline">¶</a></h2>
+<p>Once you have some keys loaded, you probably want to do something with them.
+The basic pattern for using keys is with a context management block. The <tt class="xref py py-meth docutils literal"><span class="pre">PGPKeyring.key()</span></tt> method
+provides that context management:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">pubsec</span><span class="o">.</span><span class="n">key</span><span class="p">(</span><span class="s">&quot;DEADBEEF&quot;</span><span class="p">):</span>
+    <span class="c"># You can sign things by specifying a private key.</span>
+    <span class="c"># If the key is protected, you may need to unlock it first, otherwise, :py:meth:`PGPKeyring.sign` will raise an exception</span>
+    <span class="k">if</span> <span class="n">pubsec</span><span class="o">.</span><span class="n">selected_privkey</span><span class="o">.</span><span class="n">encrypted</span><span class="p">:</span>
+        <span class="n">pubsec</span><span class="o">.</span><span class="n">unlock</span><span class="p">(</span><span class="s">&quot;C0rrectPassphr@se&quot;</span><span class="p">)</span>
+
+    <span class="c"># now sign your document. This can be a path, URL, file-like object, string, or bytes.</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">pubsec</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="s">&quot;path/to/document&quot;</span><span class="p">)</span>
+
+    <span class="c"># if you want to write the signature to disk, that&#39;s easy too!</span>
+    <span class="n">sig</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;path/to/document.asc&quot;</span>
+    <span class="n">sig</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+
+    <span class="c"># You can verify the signature using the public key half of the same key:</span>
+    <span class="k">if</span> <span class="n">pubsec</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="s">&quot;path/to/document&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">sig</span><span class="p">)):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Signature in memory verified!&quot;</span><span class="p">)</span>
+
+    <span class="c"># or use the signature you just wrote to disk</span>
+    <span class="k">if</span> <span class="n">pubsec</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="s">&quot;path/to/document&quot;</span><span class="p">,</span> <span class="s">&quot;path/to/document.asc&quot;</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Signature on disk verified!&quot;</span><span class="p">)</span>
+
+<span class="c"># When you exit the context-management block, decrypted secret key material is removed from memory,</span>
+<span class="c"># leaving only the encrypted key material.</span>
+
+<span class="c"># When verifying documents with signatures, you don&#39;t need to specify a specific key ahead of time.</span>
+<span class="c"># PGPy will figure out which key signed it using metadata in the signature:</span>
+<span class="n">ubuntupubkeys</span> <span class="o">=</span> <span class="n">pgpy</span><span class="o">.</span><span class="n">PGPKeyring</span><span class="p">(</span><span class="s">&quot;http://us.archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">ubuntupubkeys</span><span class="o">.</span><span class="n">key</span><span class="p">():</span>
+    <span class="c"># PGPKeyring.verify returns a SignatureVerification object which can be compared directly as a boolean.</span>
+    <span class="c"># It also retains some additional information you can use:</span>
+    <span class="n">sigv</span> <span class="o">=</span> <span class="n">pubsec</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="s">&quot;http://us.archive.ubuntu.com/ubuntu/dists/precise/Release&quot;</span><span class="p">,</span>
+                         <span class="s">&quot;http://us.archive.ubuntu.com/ubuntu/dists/precise/Release.gpg&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sigv</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Signature was verified using {key}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">sigv</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">keyid</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using PGPy</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#loading-keys">Loading Keys</a></li>
+<li><a class="reference internal" href="#using-keys">Using Keys</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">PGPy Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">PGPy API</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/using_pgpy.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="PGPy API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="PGPy Documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">PGPy 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Michael Greene.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

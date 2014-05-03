@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RFC 4880 Implementation Progress &mdash; PGPy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PGPy 0.1.0 documentation" href="index.html" />
+    <link rel="prev" title="PGPy API" href="api.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="PGPy API"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PGPy 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="rfc-4880-implementation-progress">
+<h1>RFC 4880 Implementation Progress<a class="headerlink" href="#rfc-4880-implementation-progress" title="Permalink to this headline">¶</a></h1>
+<p>PGPy currently provides the following RFC 4880 compliance and functionality:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="26%" />
+<col width="10%" />
+<col width="0%" />
+<col width="11%" />
+<col width="15%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head" colspan="7">Feature</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>x</td>
+<td rowspan="2"><strong>Packet Tags</strong></td>
+<td colspan="6">Old Format</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td colspan="6">New Format</td>
+</tr>
+<tr class="row-even"><td>x</td>
+<td rowspan="3"><strong>ASCII-armoring</strong></td>
+<td colspan="6">Decoding</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td colspan="6">Encoding</td>
+</tr>
+<tr class="row-even"><td>x</td>
+<td colspan="6">CRC24 Computation</td>
+</tr>
+<tr class="row-odd"><td colspan="2"><strong>Unversioned Packets</strong></td>
+<td colspan="2"><strong>Tag</strong></td>
+<td colspan="4"><strong>Name</strong></td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="12">&nbsp;</td>
+<td colspan="2">1</td>
+<td colspan="4">Public-Key Encrypted Session Key Packets</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td colspan="2">3</td>
+<td colspan="4">Symmetric-Key Encrypted Session Key Packet</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="2">4</td>
+<td colspan="4">One-Pass Signature Packet</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td colspan="2">8</td>
+<td colspan="4">Compressed Data Packet</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="2">9</td>
+<td colspan="4">Sym. Encrypted Data Packet</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td colspan="2">10</td>
+<td colspan="4">Marker Packet</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="2">11</td>
+<td colspan="4">Literal Data Packet</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td colspan="2">12</td>
+<td colspan="4">Trust Packet</td>
+</tr>
+<tr class="row-even"><td>x</td>
+<td colspan="2">13</td>
+<td colspan="4">User ID Packet</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td colspan="2">17</td>
+<td colspan="4">User Attribute Packet</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="2">18</td>
+<td colspan="4">Sym. Enc. &amp; Integrity Protected Data Packet</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td colspan="2">19</td>
+<td colspan="4">Modification Detection Code Packet</td>
+</tr>
+<tr class="row-even"><td colspan="2"><strong>Versioned Packets</strong></td>
+<td colspan="2"><strong>Tag</strong></td>
+<td colspan="4"><strong>Name</strong></td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td rowspan="5">&nbsp;</td>
+<td colspan="2">2</td>
+<td colspan="4">Signature Packet</td>
+</tr>
+<tr class="row-even"><td>x</td>
+<td colspan="2">5</td>
+<td colspan="4">Secret-Key Packet</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td colspan="2">6</td>
+<td colspan="4">Public-Key Packet</td>
+</tr>
+<tr class="row-even"><td>x</td>
+<td colspan="2">7</td>
+<td colspan="4">Secret-Subkey Packet</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td colspan="2">14</td>
+<td colspan="4">Public-Subkey Packet</td>
+</tr>
+<tr class="row-even"><td>x</td>
+<td rowspan="42"><strong>Actions</strong></td>
+<td colspan="3" rowspan="6">Keys</td>
+<td rowspan="3">Loading</td>
+<td colspan="2">ASCII</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td colspan="2">GPG Keyrings</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="2">GPG Agents</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td rowspan="3">Generate</td>
+<td colspan="2">RSA</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="2">DSA</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td colspan="2">ElGamal</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="3" rowspan="24">Symmetric-Key</td>
+<td rowspan="4">IDEA</td>
+<td rowspan="2">Encrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="2">Decrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="4">TripleDES</td>
+<td rowspan="2">Encrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="2">Decrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="4">CAST5</td>
+<td rowspan="2">Encrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="2">Decrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="4">Blowfish</td>
+<td rowspan="2">Encrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="2">Decrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="4">AES</td>
+<td rowspan="2">Encrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="2">Decrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="4">Twofish</td>
+<td rowspan="2">Encrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="2">Decrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="3" rowspan="12">Public-Key</td>
+<td rowspan="6">RSA</td>
+<td rowspan="2">Encrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="2">Decrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>x</td>
+<td colspan="2">Sign</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td colspan="2">Verify</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="6">DSA</td>
+<td rowspan="2">Encrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td rowspan="2">Decrypt</td>
+<td>Key Material</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Messages</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td colspan="2">Sign</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td colspan="2">Verify</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">PGPy API</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/progress.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="PGPy API"
+             >previous</a> |</li>
+        <li><a href="index.html">PGPy 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Michael Greene.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

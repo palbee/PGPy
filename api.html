@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PGPy API &mdash; PGPy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PGPy 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="RFC 4880 Implementation Progress" href="progress.html" />
+    <link rel="prev" title="Using PGPy" href="using_pgpy.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="progress.html" title="RFC 4880 Implementation Progress"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="using_pgpy.html" title="Using PGPy"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PGPy 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pgpy-api">
+<h1>PGPy API<a class="headerlink" href="#pgpy-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Exceptions can be referenced by importing <tt class="docutils literal"><span class="pre">pgpy.errors</span></tt>.</p>
+<span class="target" id="module-pgpy.errors"></span><dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">pgpy.errors.</tt><tt class="descname">PGPError</tt></dt>
+<dd><p>Raised as a general error in PGPy</p>
+</dd></dl>
+
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">pgpy.errors.</tt><tt class="descname">PGPKeyDecryptionError</tt></dt>
+<dd><p>Raised when decryption fails</p>
+</dd></dl>
+
+</div>
+<div class="section" id="objects">
+<h2>Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h2>
+<p>PGPy objects</p>
+<div class="section" id="module-pgpy">
+<span id="pgpkeyring"></span><h3><tt class="xref py py-class docutils literal"><span class="pre">PGPKeyring</span></tt><a class="headerlink" href="#module-pgpy" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">pgpy.</tt><tt class="descname">PGPKeyring</tt><big>(</big><em>keys=None</em><big>)</big></dt>
+<dd><p>PGPKeyring objects represent in-memory keyrings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>keys</strong> (<em>str, bytes, file-like object, list, None</em>) &#8211; Accepts None, a path, URL, file-like object, or byte-string containing ASCII or binary encoded PGP/GPG keys.
+Can also accept a list of any of the above types, or combination therein.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt>
+<tt class="descname">key</tt><big>(</big><em>id=None</em><big>)</big></dt>
+<dd><p>Context manager method. Select a key to use in the context managed block:</p>
+<div class="highlight-python"><div class="highlight"><pre>k = pgpy.PGPKeyring([os.environ[&#39;HOME&#39;] + &#39;/.gnupg/pubring.gpg&#39;, os.environ[&#39;HOME&#39;] + &#39;/.gnupg/secring.gpg&#39;])
+with k.key(&#39;DEADBEEF&#39;):
+    # do things with that key here
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<em>str</em>) &#8211; Specify a Key ID to use. This can be an 8 or 16 hex digit key ID, or a full key fingerprint, with or without spaces.
+Specifying no key (or None) is acceptable for key verification.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><tt class="xref py py-exc docutils literal"><span class="pre">PGPError</span></tt> is raised if the key specified is not loaded.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">load</tt><big>(</big><em>keys</em><big>)</big></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>keys</strong> (<em>str, bytes, file-like object, list</em>) &#8211; Accepts a path, URL, file-like object, or byte-string containing ASCII or binary encoded PGP/GPG keys.
+Can also accept a list of any of the above types, or combination therein.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">sign</tt><big>(</big><em>self</em>, <em>subject</em><big>)</big></dt>
+<dd><p>Sign a document using the selected private key:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">k</span> <span class="o">=</span> <span class="n">pgpy</span><span class="o">.</span><span class="n">PGPKeyring</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HOME&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/.gnupg/pubring.gpg&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HOME&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/.gnupg/secring.gpg&#39;</span><span class="p">])</span>
+<span class="k">with</span> <span class="n">k</span><span class="o">.</span><span class="n">key</span><span class="p">(</span><span class="s">&#39;DEADBEEF&#39;</span><span class="p">):</span>
+    <span class="n">sig1</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="s">&#39;This is an unsigned document&#39;</span><span class="p">)</span>
+    <span class="n">sig2</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="s">&#39;path/to/another/unsigned/document&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>subject</strong> (<em>str, bytes, file-like object</em>) &#8211; Accepts a path, URL, file-like object, or byte-string containing the thing you would like to sign</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">newly created signature of the specified document.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-obj docutils literal"><span class="pre">PGPSignature</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><tt class="xref py py-exc docutils literal"><span class="pre">NotImplementedError</span></tt> if the selected key is not an RSA key</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">unlock</tt><big>(</big><em>passphrase</em><big>)</big></dt>
+<dd><p>Decrypt encryted key material in a protected private key:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">k</span> <span class="o">=</span> <span class="n">pgpy</span><span class="o">.</span><span class="n">PGPKeyring</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HOME&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/.gnupg/pubring.gpg&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HOME&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/.gnupg/secring.gpg&#39;</span><span class="p">])</span>
+<span class="k">with</span> <span class="n">k</span><span class="o">.</span><span class="n">key</span><span class="p">(</span><span class="s">&#39;DEADBEEF&#39;</span><span class="p">):</span>
+    <span class="n">k</span><span class="o">.</span><span class="n">unlock</span><span class="p">(</span><span class="s">&#39;Dead Beef&#39;</span><span class="p">)</span>
+    <span class="c"># now that the private key is unlocked, use it for things</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>passphrase</strong> (<em>str</em>) &#8211; The passphrase used to decrypt the encrypted private key material.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><tt class="xref py py-exc docutils literal"><span class="pre">PGPError</span></tt> if the key specified is not encrypted</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><tt class="xref py py-exc docutils literal"><span class="pre">PGPKeyDecryptionError</span></tt> if the passphrase was incorrect</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">verify</tt><big>(</big><em>subject</em>, <em>signature</em><big>)</big></dt>
+<dd><p>Verify the integrity of something using its signature and a loaded public key:</p>
+<div class="highlight-python"><div class="highlight"><pre>k = pgpy.PGPKeyring([os.environ[&#39;HOME&#39;] + &#39;/.gnupg/pubring.gpg&#39;, os.environ[&#39;HOME&#39;] + &#39;/.gnupg/secring.gpg&#39;])
+with k.key():
+    sv = k.verify(&#39;path/to/an/unsigned/document&#39;, &#39;path/to/signature&#39;)
+    if sv:
+        print(&#39;Signature verified with {key}&#39;.format(key=sv.key.keyid)
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>subject</strong> (<em>str, bytes, file-like object</em>) &#8211; Accepts a path, URL, file-like object, or byte-string containing the thing you would like to verify</li>
+<li><strong>signature</strong> (<em>str, bytes, file-like object</em>) &#8211; Accepts a path, URL, file-like object, or byte-string containing the signature of the thing you would like to verify</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">indicating whether or not the signature verified.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="xref py py-obj docutils literal"><span class="pre">SignatureVerification</span></tt></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pgpy.signature">
+<span id="signatureverification"></span><h3><tt class="xref py py-class docutils literal"><span class="pre">SignatureVerification</span></tt><a class="headerlink" href="#module-pgpy.signature" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">pgpy.signature.</tt><tt class="descname">SignatureVerification</tt></dt>
+<dd><p>Returned by <tt class="xref py py-meth docutils literal"><span class="pre">pgpy.PGPKeyring.verify()</span></tt></p>
+<p>Can be compared directly as a boolean to determine whether or not the specified signature verified.</p>
+<dl class="attribute">
+<dt>
+<tt class="descname">signature</tt></dt>
+<dd><p>The <tt class="xref py py-class docutils literal"><span class="pre">PGPSignature</span></tt> that was used in the verification that returned this</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">key</tt></dt>
+<dd><p>The <tt class="xref py py-class docutils literal"><span class="pre">PGPKey</span></tt> (if available) that was used to verify the signature</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">subject</tt></dt>
+<dd><p>The subject of the verification</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pgpy.pgp">
+<span id="pgpsignature"></span><h3><tt class="xref py py-class docutils literal"><span class="pre">PGPSignature</span></tt><a class="headerlink" href="#module-pgpy.pgp" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">pgpy.pgp.</tt><tt class="descname">PGPSignature</tt></dt>
+<dd><p>Returned by <tt class="xref py py-meth docutils literal"><span class="pre">pgpy.PGPKeyring.sign()</span></tt></p>
+<dl class="attribute">
+<dt>
+<tt class="descname">path</tt></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str, None</td>
+</tr>
+</tbody>
+</table>
+<p>The local path of this signature, if set. Defaults to <tt class="docutils literal"><span class="pre">None</span></tt> for new signatures.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">write</tt><big>(</big><big>)</big></dt>
+<dd><p>Writes the loaded contents to disk, at the path specified in <tt class="xref py py-attr docutils literal"><span class="pre">path</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><tt class="xref py py-exc docutils literal"><span class="pre">FileNotFoundError</span></tt> (or <tt class="xref py py-exc docutils literal"><span class="pre">IOError</span></tt> on Python 2.x) if <tt class="xref py py-attr docutils literal"><span class="pre">path</span></tt> is invalid or None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pgpkey">
+<h3><tt class="xref py py-class docutils literal"><span class="pre">PGPKey</span></tt><a class="headerlink" href="#pgpkey" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">pgpy.pgp.</tt><tt class="descname">PGPKey</tt></dt>
+<dd><dl class="attribute">
+<dt>
+<tt class="descname">keyid</tt></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+<p>This is the 16 hex digit id of this key</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">PGPy API</a><ul>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+<li><a class="reference internal" href="#objects">Objects</a><ul>
+<li><a class="reference internal" href="#module-pgpy"><tt class="docutils literal"><span class="pre">PGPKeyring</span></tt></a></li>
+<li><a class="reference internal" href="#module-pgpy.signature"><tt class="docutils literal"><span class="pre">SignatureVerification</span></tt></a></li>
+<li><a class="reference internal" href="#module-pgpy.pgp"><tt class="docutils literal"><span class="pre">PGPSignature</span></tt></a></li>
+<li><a class="reference internal" href="#pgpkey"><tt class="docutils literal"><span class="pre">PGPKey</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="using_pgpy.html"
+                        title="previous chapter">Using PGPy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="progress.html"
+                        title="next chapter">RFC 4880 Implementation Progress</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="progress.html" title="RFC 4880 Implementation Progress"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="using_pgpy.html" title="Using PGPy"
+             >previous</a> |</li>
+        <li><a href="index.html">PGPy 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Michael Greene.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
